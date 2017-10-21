@@ -23,15 +23,18 @@ public class Productor extends Thread {
     }
     
     public void run () {
-        while (!false) {
+        while (true) {
             try {
-                if (this.piece == 'c' && buffer.full()) {
-                    System.out.println("Piece 'c' created");
-                    buffer.empty();
+                if (this.piece == 'c') {
+                    if(buffer.full()){
+                        System.out.println("Piece 'c' created");
+                        this.buffer.empty();
+                    }
                 }else {
                     this.buffer.Add(this.piece);
                 }
             } catch (InterruptedException e) {
+                System.out.println("oops");
             }
         }
     }

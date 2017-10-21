@@ -38,10 +38,9 @@ public class Buffer {
             while (this.currentSize == this.maxSize) {
                 this.notFull.await();
             }
-            boolean flag = true;
             int counterA = 0;
             int counterB = 0;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < this.maxSize; i++) {
                 if (input == 'a' && this.array[i] == 'a') {
                     counterA++;
                 }else if (input == 'b' && this.array[i] == 'b') {
@@ -54,6 +53,8 @@ public class Buffer {
                 this.currentSize++;
                 System.out.println(this.array);
                 this.notEmpty.signal();
+            }else{
+                this.notFull.signal();
             }
         } finally {
             this.lock.unlock();
@@ -76,7 +77,7 @@ public class Buffer {
         }
     }
     
-    public boolean full () {
+    public boolean full () throws InterruptedException{
         return this.currentSize == this.maxSize;
     }
             
@@ -88,6 +89,7 @@ public class Buffer {
             }
             this.array = new char[this.maxSize];
             this.currentSize = 0;
+            this.notFull.signal();
         } finally {
             this.lock.unlock();
         }

@@ -17,7 +17,7 @@ public class Ejercios {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Buffer buffer = new Buffer(10);
+        Buffer buffer = new Buffer(4);
         new Productor(buffer, 'a').start();
         new Productor(buffer, 'b').start();
         new Productor(buffer, 'c').start();
